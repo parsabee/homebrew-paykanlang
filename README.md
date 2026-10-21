@@ -6,28 +6,27 @@ paykan --version
 ```
 
 `brew install` taps this repository by itself; `brew tap parsabee/paykanlang` does it ahead
-of time. The formula builds the core compiler from the release's source archive: the
-recursive-descent frontend and the C backend, which compile programs with the system C
-compiler. The release tarballs on the
-[PaykanLang releases](https://github.com/parsabee/PaykanLang/releases) page also carry the
-LLVM backend.
+of time. The formula installs the prebuilt tarball of the
+[PaykanLang release](https://github.com/parsabee/PaykanLang/releases) for the platform
+(macOS on Apple Silicon, Linux on x86-64 and ARM64): `paykan` links LLVM statically, so
+nothing is built on your machine. `paykan build` links programs with the system C compiler.
 
 ## How the formula is updated
 
 The compiler's Release workflow opens a pull request here for every non-pre-release tag,
-setting the formula's `url` and `sha256` to the new tag's source archive. The
-`brew test-bot` workflow builds and tests the formula on the pull request and uploads the
-bottles; adding the `pr-pull` label publishes the bottles to GitHub Packages and merges the
-pull request with the formula's `bottle do` block filled in.
+setting each platform's `url` and `sha256` to the new release's tarball. The
+`brew test-bot` workflow installs and tests the formula on the pull request; merge it once
+that passes.
 
-To bump by hand:
+To bump by hand, for each platform's tarball:
 
 ```sh
-url=https://github.com/parsabee/PaykanLang/archive/refs/tags/vX.Y.Z.tar.gz
-curl -fsSL "$url" | shasum -a 256
+url=https://github.com/parsabee/PaykanLang/releases/download/vX.Y.Z/paykanlang-X.Y.Z-macos-arm64.tar.gz
+curl -fsSL "$url.sha256"
 ```
 
-and set `url` and `sha256` in `Formula/paykanlang.rb`.
+and set that platform's `url` and `sha256` in `Formula/paykanlang.rb` (the release
+attaches a `.sha256` beside each tarball).
 
 ## Repository settings
 
