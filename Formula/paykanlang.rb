@@ -17,13 +17,19 @@ class Paykanlang < Formula
   license "MIT"
 
   on_macos do
-    # The macOS release is built for Apple Silicon only, and the arch
-    # requirement keeps an Intel Mac from installing it (brew wants a URL on
-    # every macOS all the same).
-    url "https://github.com/parsabee/PaykanLang/releases/download/v0.2.0/paykanlang-0.2.0-macos-arm64.tar.gz"
-    sha256 "0562d33df6480a5bcfdcf76f2a05b77f93f6ecd18f02155ddf4b026e98349847"
-
+    # The macOS release is built for Apple Silicon only: the arch
+    # requirement keeps an Intel Mac from installing it, but brew wants a
+    # URL on every macOS all the same.
     depends_on arch: :arm64
+
+    on_arm do
+      url "https://github.com/parsabee/PaykanLang/releases/download/v0.2.0/paykanlang-0.2.0-macos-arm64.tar.gz"
+      sha256 "0562d33df6480a5bcfdcf76f2a05b77f93f6ecd18f02155ddf4b026e98349847"
+    end
+    on_intel do
+      url "https://github.com/parsabee/PaykanLang/releases/download/v0.2.0/paykanlang-0.2.0-macos-arm64.tar.gz"
+      sha256 "0562d33df6480a5bcfdcf76f2a05b77f93f6ecd18f02155ddf4b026e98349847"
+    end
   end
   on_linux do
     on_intel do
